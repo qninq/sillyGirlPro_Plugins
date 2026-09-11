@@ -3,7 +3,7 @@
 // [desc: 提供时间、版本、我是谁、更新、升级、重启基础管理命令]
 // [author: sillyGirl]
 // [version: v1.0.7]
-// [rule: ^\s*(时间|版本|我是谁|更新|升级|重启)\s*$]
+// [rule: ^\s*(时间|time|version|我是谁|myuid|更新|升级|restart)\s*$]
 // [on_start: true]
 // [status: true]
 // [admin: false]
