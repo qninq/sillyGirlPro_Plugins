@@ -1,6 +1,6 @@
 /**
  * @title 系统状态
- * @name status.js
+ * @name status
  * @author qninq
  * @version v1.0.1
  * @desc 发送「状态」查看机器人所在服务器（容器）的运行状态：处理器、CPU/内存/硬盘使用率、系统与内核、进程数、开机与程序启动时间、网络收发、公网/内网 IP。
