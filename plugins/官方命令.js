@@ -2,7 +2,7 @@
 // [name: 官方命令]
 // [desc: 提供时间、版本、我是谁、更新、升级、重启基础管理命令]
 // [author: sillyGirl]
-// [version: v1.0.8]
+// [version: v1.0.9]
 // [rule: ^\s*(时间|time|版本|version|我是谁|myuid|更新|升级|restart)\s*$]
 // [on_start: true]
 // [status: true]
@@ -71,8 +71,9 @@ async function replyVersion() {
   const text = ["SillyGirl 版本", `当前版本：${current}`, `最新版本：${latest || current}`];
 //   if (info.source) text.push(`来源：${info.source}`);
   if (startedAt) text.push(`启动时间：${startedAt}`);
+  const cmp = current && latest ? compareVersions(current, latest) : 0;
   text.push(
-    current && latest && normalizeVersion(current) !== normalizeVersion(latest) ? "状态：有新版本" : "状态：已是最新",
+    cmp < 0 ? "状态：有新版本，可发送「更新」升级" : cmp > 0 ? "状态：已是最新（本地版本领先远端）" : "状态：已是最新",
   );
   await s.reply(text.join("\n"));
 }
@@ -177,6 +178,19 @@ function normalizeVersion(value) {
     .trim()
     .replace(/^refs\/tags\//, "")
     .replace(/^[vV]/, "");
+}
+
+// 按数字逐段比较版本号：返回 1（a>b）、-1（a<b）、0（相等）
+function compareVersions(a, b) {
+  const pa = normalizeVersion(a).split(".").map((part) => parseInt(part, 10) || 0);
+  const pb = normalizeVersion(b).split(".").map((part) => parseInt(part, 10) || 0);
+  const length = Math.max(pa.length, pb.length);
+  for (let i = 0; i < length; i++) {
+    const x = pa[i] || 0;
+    const y = pb[i] || 0;
+    if (x !== y) return x > y ? 1 : -1;
+  }
+  return 0;
 }
 
 function formatDate(date) {
