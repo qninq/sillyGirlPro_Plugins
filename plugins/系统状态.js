@@ -2,7 +2,7 @@
  * @title 系统状态
  * @name status.js
  * @author qninq
- * @version v1.0.0
+ * @version v1.0.1
  * @desc 发送「状态」查看机器人所在服务器（容器）的运行状态：处理器、CPU/内存/硬盘使用率、系统与内核、进程数、开机与程序启动时间、网络收发、公网/内网 IP。
  * @class 工具类
  * @rule raw ^(状态|系统状态|system|运行状态)$
@@ -161,17 +161,27 @@ function privateIP() {
   return "未知";
 }
 
+// 依次尝试多个公网 IP 检测源（优先国内可达），从响应中提取 IPv4
 async function publicIP() {
-  try {
-    const controller = new AbortController();
-    const timer = setTimeout(() => controller.abort(), 3000);
-    const response = await fetch("https://api.ip.sb/ip", { signal: controller.signal });
-    clearTimeout(timer);
-    const data = await response.json();
-    return data.ip || "获取失败";
-  } catch (_) {
-    return "获取失败";
+  const endpoints = [
+    "https://myip.ipip.net",
+    "https://api.ipify.org",
+    "https://ifconfig.me/ip",
+    "https://api.ip.sb/geoip",
+  ];
+  for (const url of endpoints) {
+    try {
+      const controller = new AbortController();
+      const timer = setTimeout(() => controller.abort(), 3000);
+      const response = await fetch(url, { signal: controller.signal });
+      clearTimeout(timer);
+      if (!response.ok) continue;
+      const text = await response.text();
+      const match = text.match(/\b\d{1,3}(\.\d{1,3}){3}\b/);
+      if (match) return match[0];
+    } catch (_) {}
   }
+  return "获取失败";
 }
 
 async function main() {
