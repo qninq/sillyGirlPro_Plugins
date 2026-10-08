@@ -1,5 +1,5 @@
 // [title: 官方命令]
-// [name: guanFangMingLing]
+// [name: 官方命令]
 // [desc: 提供时间、版本、我是谁、更新、升级、重启基础管理命令]
 // [author: sillyGirl]
 // [version: v1.0.8]
