@@ -1,14 +1,18 @@
-/**
- * @title 系统状态
- * @name status
- * @author qninq
- * @version v1.0.1
- * @desc 发送「状态」查看机器人所在服务器（容器）的运行状态：处理器、CPU/内存/硬盘使用率、系统与内核、进程数、开机与程序启动时间、网络收发、公网/内网 IP。
- * @class 工具类
- * @rule raw ^(状态|系统状态|system|运行状态)$
- * @priority 9
- * @status true
- */
+// [title: 系统状态]
+// [name: status]
+// [desc: 发送「状态」查看机器人所在服务器（容器）的运行状态：处理器、CPU/内存/硬盘使用率、系统与内核、进程数、开机与程序启动时间、网络收发、公网/内网 IP。]
+// [author: qninq]
+// [version: v1.0.1]
+// [rule: raw ^(状态|系统状态|system|运行状态)$]
+// [on_start: false]
+// [status: true]
+// [admin: false]
+// [public: true]
+// [priority: 9]
+// [class: 工具]
+// [icon: https://api.iconify.design/lucide:activity.svg]
+// [origin: 自定义]
+// [depe: []]
 
 const {
   sender: s,
